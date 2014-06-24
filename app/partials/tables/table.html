@@ -1,0 +1,31 @@
+<div class="tables view">
+    <header>
+        <h3>Table Stuff</h3>
+    </header>
+    <div>
+
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                    <ul class="nav navbar-nav">
+                        <li><a data-ng-click="onTableAddClick()"><i class="icon-plus"></i> Add Table</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input type="text"  data-ng-model="filterOptions.filterText" class="novalidate form-control" placeholder="Search">
+                        </div>
+                     </form>
+            </div><!-- /.container-fluid -->
+        </nav>
+
+
+
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12">
+
+                <div class="gridStyle" ng-grid="myTable"></div>
+            </div>
+        </div>
+    </div>
+</div>

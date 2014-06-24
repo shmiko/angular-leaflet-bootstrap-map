@@ -1,0 +1,101 @@
+<div class="maps view">
+    <header>
+        <h3>Map Stuff</h3>
+    </header>
+    <div>
+        <br>
+
+        <div class="row content">
+            <div class="col-sm-10 col-md-10">
+                <!--<leaflet  center="mapDefault.austin" markers="mapDefault.markers" height="480px" ></leaflet>-->
+                <leaflet center="austin" controls="controls" markers="markers" layers="layers" height="480px"
+                         event-broadcast="events"></leaflet>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='css' style="display:none" class="btn btn-primary js-jumbo css">CSS</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='sql' style="display:none" class="btn btn-primary js-jumbo sql">SQL</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+
+                <accordion>
+                    <accordion-group heading="Maps">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group ng-repeat="map in maps">
+                                <accordion-heading>
+                                    {{map.title}}
+                                </accordion-heading>
+                                <div class="col-sm-12 col-md-12">
+                                    <button ng-click="toggleMap(map.name,map.title )" class="btn btn-primary">Activate
+                                    </button>
+                                </div>
+
+                            </accordion-group>
+                        </accordion>
+                    </accordion-group>
+                    <accordion-group heading="Map Layers">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group is-open="status.open">
+                                <accordion-heading>
+                                    Add New Layer
+                                </accordion-heading>
+                                This is just some content to illustrate fancy headings.
+                            </accordion-group>
+                            <accordion-group ng-repeat="mapLayer in mapLayers">
+                                <accordion-heading>
+                                    {{mapLayer.title}}
+                                </accordion-heading>
+                                <div class="col-sm-12 col-md-12">
+                                    <button ng-click="toggleLayer(mapLayer.name)" class="btn btn-primary">
+                                         {{mapLayer.label}}
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12">
+                                    <button ng-click="editMode('css')" class="btn btn-primary">CSS</button>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <button ng-click="editMode('sql')" class="btn btn-primary">SQL</button>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="leaflet-draw leaflet-control">
+                                        <div class="leaflet-draw-section">
+                                            <div class="leaflet-draw-toolbar leaflet-bar leaflet-draw-toolbar-top"><a
+                                                    class="leaflet-draw-draw-polyline" href="javascript:void(0)"
+                                                    title="Draw a polyline"></a><a class="leaflet-draw-draw-polygon"
+                                                                                   href="javascript:void(0)"
+                                                                                   title="Draw a polygon"></a><a
+                                                    class="leaflet-draw-draw-rectangle" href="javascript:void(0)"
+                                                    title="Draw a rectangle"></a><a class="leaflet-draw-draw-circle"
+                                                                                    href="javascript:void(0)"
+                                                                                    title="Draw a circle"></a><a
+                                                    class="leaflet-draw-draw-marker" href="javascript:void(0)"
+                                                    title="Draw a marker"></a></div>
+                                            <ul class="leaflet-draw-actions" style="top: 103px; display: none;">
+                                                <li class=""><a class="" href="javascript:void(0)"
+                                                                title="Cancel drawing">Cancel</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="leaflet-draw-section">
+                                            <div class="leaflet-draw-toolbar leaflet-bar"><a
+                                                    class="leaflet-draw-edit-edit" href="javascript:void(0)"
+                                                    title="Edit layers."></a><a class="leaflet-draw-edit-remove"
+                                                                                href="javascript:void(0)"
+                                                                                title="Delete layers."></a></div>
+                                            <ul class="leaflet-draw-actions"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </accordion-group>
+                </accordion>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

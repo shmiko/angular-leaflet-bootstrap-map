@@ -1,0 +1,8 @@
+node_modules
+test
+app/lib/angular/docs
+app/lib/angular/I18n
+scripts
+app/lib/jasmine*
+config
+
