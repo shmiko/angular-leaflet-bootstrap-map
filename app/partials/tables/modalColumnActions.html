@@ -1,0 +1,45 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>{{modalOptions.headerText}}</h3>
+</div>
+<div class="modal-body columnAction">
+
+
+    <form name="columnActionForm" ng-submit="submitForm()" novalidate>
+
+        <div class="form-group">
+            <label>Geo-Reference This Column</label></br>
+
+            Lat: <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting" type="checkbox" ng-model="modalOptions.record.lat"> <br/>
+            Lon: <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting" type="checkbox" ng-model="modalOptions.record.lon"> <br/>
+        </div>
+
+
+
+        <div class="form-group"
+             ng-class="{ 'has-error' : columnActionForm.name.$invalid && !columnActionForm.name.$pristine }">
+            <label>Rename This Column</label>
+            <input name="name" class="form-control" ng-model="modalOptions.record.name" requried>
+
+            <p ng-show="columnActionForm.name.$invalid && !columnActionForm.name.$pristine"
+               class="help-block">
+                Column Name is
+                required.</p>
+        </div>
+
+
+        <div class="form-group">
+            <label>Delete This Column</label></br>
+            <input type="checkbox" ng-model="modalOptions.record.delete"> <br/>
+        </div>
+
+    </form>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="columnActionForm.$invalid"
+            data-ng-click="modalOptions.ok();">
+        {{modalOptions.actionButtonText}}
+    </button>
+</div>

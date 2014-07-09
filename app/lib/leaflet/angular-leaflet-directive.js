@@ -1259,7 +1259,7 @@
             }
           },
           crs: L.CRS.EPSG3857,
-          tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          tileLayer: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           tileLayerOptions: { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
           path: {
             weight: 10,
@@ -2424,7 +2424,7 @@
     'leafletHelpers',
     '$log',
     function ($rootScope, leafletHelpers, $log) {
-      var isDefined = leafletHelpers.isDefined, MarkerClusterPlugin = leafletHelpers.MarkerClusterPlugin, AwesomeMarkersPlugin = leafletHelpers.AwesomeMarkersPlugin, MakiMarkersPlugin = leafletHelpers.MakiMarkersPlugin, safeApply = leafletHelpers.safeApply, Helpers = leafletHelpers, isString = leafletHelpers.isString, isNumber = leafletHelpers.isNumber, isObject = leafletHelpers.isObject, groups = {};
+      var isDefined = leafletHelpers.isDefined, MarkerClusterPlugin = leafletHelpers.MarkerClusterPlugin, AwesomeMarkersPlugin = leafletHelpers.AwesomeMarkersPlugin, MakiMarkersPlugin = leafletHelpers.MakiMarkersPlugin, ExtraMarkersPlugin = leafletHelpers.ExtraMarkersPlugin, safeApply = leafletHelpers.safeApply, Helpers = leafletHelpers, isString = leafletHelpers.isString, isNumber = leafletHelpers.isNumber, isObject = leafletHelpers.isObject, groups = {};
       var createLeafletIcon = function (iconData) {
         if (isDefined(iconData) && isDefined(iconData.type) && iconData.type === 'awesomeMarker') {
           if (!AwesomeMarkersPlugin.isLoaded()) {
@@ -2437,6 +2437,12 @@
             $log.error('[AngularJS - Leaflet] The MakiMarkers Plugin is not loaded.');
           }
           return new L.MakiMarkers.icon(iconData);
+        }
+        if (isDefined(iconData) && isDefined(iconData.type) && iconData.type === 'ExtraMarker') {
+          if (!ExtraMarkersPlugin.isLoaded()) {
+            $log.error('[AngularJS - Leaflet] The ExtraMarkers Plugin is not loaded.');
+          }
+          return new L.ExtraMarkers.icon(iconData);
         }
         if (isDefined(iconData) && isDefined(iconData.type) && iconData.type === 'div') {
           return new L.divIcon(iconData);
@@ -2496,6 +2502,12 @@
               zIndexOffset: isDefined(markerData.zIndexOffset) ? markerData.zIndexOffset : 0,
               iconAngle: isDefined(markerData.iconAngle) ? markerData.iconAngle : 0
             };
+          // Add any other options not added above to markerOptions
+          for (var markerDatum in markerData) {
+            if (markerData.hasOwnProperty(markerDatum) && !markerOptions.hasOwnProperty(markerDatum)) {
+              markerOptions[markerDatum] = markerData[markerDatum];
+            }
+          }
           return new L.marker(markerData, markerOptions);
         },
         addMarkerToGroup: function (marker, groupName, map) {
@@ -2882,6 +2894,32 @@
           is: function (icon) {
             if (this.isLoaded()) {
               return icon instanceof L.MakiMarkers.Icon;
+            } else {
+              return false;
+            }
+          },
+          equal: function (iconA, iconB) {
+            if (!this.isLoaded()) {
+              return false;
+            }
+            if (this.is(iconA)) {
+              return angular.equals(iconA, iconB);
+            } else {
+              return false;
+            }
+          }
+        },
+        ExtraMarkersPlugin: {
+          isLoaded: function () {
+            if (angular.isDefined(L.ExtraMarkers) && angular.isDefined(L.ExtraMarkers.Icon)) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          is: function (icon) {
+            if (this.isLoaded()) {
+              return icon instanceof L.ExtraMarkers.Icon;
             } else {
               return false;
             }

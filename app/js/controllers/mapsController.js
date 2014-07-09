@@ -12,7 +12,9 @@ angular.module('mapApp.mapsController', [])
 
 
              var drawnItems = new L.FeatureGroup(),
-                options = { edit: { featureGroup: drawnItems } },
+                options = {
+                    edit: { featureGroup: drawnItems }
+                },
                 drawControl = new L.Control.Draw(options);
 
             angular.extend($scope, {
@@ -39,22 +41,22 @@ angular.module('mapApp.mapsController', [])
             layers: {
                 baselayers: {
                     googleTerrain: {
-                        name: 'Google Terrain',
+                        name: 'Terrain',
                         layerType: 'TERRAIN',
                         type: 'google'
                     },
                     googleHybrid: {
-                        name: 'Google Hybrid',
+                        name: 'Hybrid',
                         layerType: 'HYBRID',
                         type: 'google'
                     },
                     googleRoadmap: {
-                        name: 'Google Streets',
+                        name: 'Streets',
                         layerType: 'ROADMAP',
                         type: 'google'
                     },
                     osm: {
-                        name: 'OpenStreetMap',
+                        name: 'StreetMap',
                             type: 'xyz',
                             url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                             layerOptions: {
@@ -64,7 +66,7 @@ angular.module('mapApp.mapsController', [])
                         }
                     },
                     cycle: {
-                        name: 'OpenCycleMap',
+                        name: 'CycleMap',
                             type: 'xyz',
                             url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
                             layerOptions: {
@@ -169,9 +171,9 @@ angular.module('mapApp.mapsController', [])
                 mapLayer.content = value.type;
                 mapLayer.visible = value.visible;
                 if(mapLayer.visible){
-                    mapLayer.label = 'Remove'
+                    mapLayer.label = 'Remove This Layer'
                 }else{
-                    mapLayer.label = 'Add'
+                    mapLayer.label = 'Add This Layer'
                 }
                 $scope.mapLayers.push(mapLayer)
 
@@ -196,10 +198,10 @@ angular.module('mapApp.mapsController', [])
                 $scope.layers.overlays[layer].visible = !$scope.layers.overlays[layer].visible;
                 angular.forEach($scope.mapLayers, function(value){
                     if(value.name == layer){
-                        if(value.label == 'Add'){
-                            value.label = 'Remove'
+                        if(value.label == 'Add This Layer'){
+                            value.label = 'Remove This Layer'
                         }else{
-                            value.label = 'Add'
+                            value.label = 'Add This Layer'
                         }
                     }
 
@@ -217,6 +219,9 @@ angular.module('mapApp.mapsController', [])
 
             $scope.codecss = "if then else css";
             $scope.codesql = "if then else sql";
+            $scope.codehtmlmixed = "if then else html";
+
+
             $scope.editorOptionssql = {
                 lineWrapping : true,
                 lineNumbers: true,
@@ -235,6 +240,15 @@ angular.module('mapApp.mapsController', [])
                 theme: 'twilight',
                 mode: 'css'
             };
+            $scope.editorOptionshtmlmixed = {
+                lineWrapping : true,
+                lineNumbers: true,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                extraKeys: {"Ctrl-Space": "autocomplete"},
+                theme: 'twilight',
+                mode: "text/html"
+            };
 
             CodeMirror.commands.autocomplete = function(cm) {
                 var doc = cm.getDoc();
@@ -248,8 +262,10 @@ angular.module('mapApp.mapsController', [])
                             "table2": [ "other_columns1", "other_columns2" ]
                         }
                     });
-                }else{
+                }else if(mode == 'css'){
                     CodeMirror.showHint(cm, CodeMirror.hint.css);
+                }else{
+                    CodeMirror.showHint(cm, CodeMirror.hint.html);
                 }
              };
             var orig = CodeMirror.hint.css;
@@ -271,6 +287,27 @@ angular.module('mapApp.mapsController', [])
                     angular.element('.'+mode).triggerHandler('click');
                 }, 0);
             };
+
+
+            $scope.list1 = [
+                { 'title': 'Item 3', 'show': "off",'drag': true },
+                { 'title': 'Item 2', 'show': "off",'drag': true },
+                { 'title': 'Item 1', 'show': "off",'drag': true },
+                { 'title': 'Item 4', 'show': "off",'drag': true }
+            ];
+
+            $scope.applyInfobox = function(item,index){
+                if(item.show == 'off'){
+                    $scope.list1[index].show = 'on';
+                }else{
+                    $scope.list1[index].show = 'off';
+
+                }
+
+            };
+
+
+
 
         }
     ]);

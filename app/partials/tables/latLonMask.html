@@ -1,0 +1,26 @@
+
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>{{modalOptions.headerText}}</h3>
+</div>
+<div class="modal-body columnAction">
+
+
+    <form name="columnActionForm" ng-submit="submitForm()" novalidate>
+<div class="form-group">
+    <label>Geo-Reference This Row</label></br>
+
+    <span ng-show="modalOptions.model1.colDef.lat" >  Lat: <input   ng-model="modalOptions.record.lat"> <br/><br/></span>
+    <span ng-show="modalOptions.model1.colDef.lon" >  Lon: <input   ng-model="modalOptions.record.lon"> <br/><br/></span>
+</div>
+    </form>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="columnActionForm.$invalid"
+            data-ng-click="modalOptions.ok();">
+        {{modalOptions.actionButtonText}}
+    </button>
+
+</div>

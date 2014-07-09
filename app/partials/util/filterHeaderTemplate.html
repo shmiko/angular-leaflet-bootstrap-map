@@ -6,9 +6,25 @@
     <div class="ngSortPriority">{{col.sortPriority}}</div>
     <div ng-class="{ ngPinnedIcon: col.pinned, ngUnPinnedIcon: !col.pinned }" ng-click="togglePin(col)"
          ng-show="col.pinnable"></div>
+    <div  ng-show="col.field != 'geoRef' && col.field != 'id' && col.field != 'created' && col.field != 'updated'" class="ngCellHeaderActionButton" ng-click="toggleShowColumnActionMenu(col)">
+
+        <div class="ngHeaderButtonArrow"></div>
+
+    </div>
+
 </div>
+
+
 <input type="text" ng-click="stopClickProp($event)" placeholder="Filter..." ng-model="col.filterText"
        ng-style="{ 'width' : col.width - 14 + 'px' }"
        style="position: absolute; top: 30px; bottom: 30px; left: 0; bottom:0;"/>
 <div ng-show="col.resizable" class="ngHeaderGrip" ng-click="col.gripClick($event)"
      ng-mousedown="col.gripOnMouseDown($event)"></div>
+
+
+
+    <div ng-show="showFilter">
+
+        <input placeholder="{{i18n.ngSearchPlaceHolder}}" type="text" ng-model="filterText"/>
+
+    </div>

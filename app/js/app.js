@@ -21,6 +21,7 @@ angular.module('mapApp', [
     'ui.codemirror',
     'leaflet-directive',
     'angularFileUpload',
+    'ngDragDrop',
     'ngGrid'
 
 ]).

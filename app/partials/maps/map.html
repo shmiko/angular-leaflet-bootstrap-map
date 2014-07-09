@@ -6,9 +6,9 @@
         <br>
 
         <div class="row content">
-            <div class="col-sm-10 col-md-10">
+            <div class="col-sm-12 col-md-12">
                 <!--<leaflet  center="mapDefault.austin" markers="mapDefault.markers" height="480px" ></leaflet>-->
-                <leaflet center="austin" controls="controls" markers="markers" layers="layers" height="480px"
+                <leaflet center="austin" controls="controls" markers="markers" layers="layers"   height="480px"
                          event-broadcast="events"></leaflet>
             </div>
             <div class="col-sm-2 col-md-2">
@@ -18,6 +18,30 @@
                 <button flyovereditor mode='sql' style="display:none" class="btn btn-primary js-jumbo sql">SQL</button>
             </div>
             <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='add' style="display:none" class="btn btn-primary js-jumbo add">Add</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='upload' style="display:none" class="btn btn-primary js-jumbo upload">Upload</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='create' style="display:none" class="btn btn-primary js-jumbo create">Create</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='infobox' style="display:none" class="btn btn-primary js-jumbo infobox">Info Box</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='htmlmixed' style="display:none" class="btn btn-primary js-jumbo htmlmixed">HTML</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='tableLink' style="display:none" class="btn btn-primary js-jumbo tableLink">Table</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='save' style="display:none" class="btn btn-primary js-jumbo save">Save</button>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <accordion>
+                    <accordion-group heading="Map Controls">
+                        <accordion close-others="oneAtATime">
 
                 <accordion>
                     <accordion-group heading="Maps">
@@ -27,7 +51,7 @@
                                     {{map.title}}
                                 </accordion-heading>
                                 <div class="col-sm-12 col-md-12">
-                                    <button ng-click="toggleMap(map.name,map.title )" class="btn btn-primary">Activate
+                                    <button ng-click="toggleMap(map.name,map.title )" class="btn btn-primary">Enable as Base Map
                                     </button>
                                 </div>
 
@@ -40,59 +64,66 @@
                                 <accordion-heading>
                                     Add New Layer
                                 </accordion-heading>
-                                This is just some content to illustrate fancy headings.
+                                <div class="col-sm-12 col-md-12">
+                                    <button ng-click="editMode('add')" class="btn btn-large btn-primary">Add</button>
+                                    <button ng-click="editMode('upload')" class="btn btn-primary">Upload</button>
+                                    <button ng-click="editMode('create')" class="btn btn-primary">Create </button>
+                                </div>
                             </accordion-group>
                             <accordion-group ng-repeat="mapLayer in mapLayers">
                                 <accordion-heading>
                                     {{mapLayer.title}}
                                 </accordion-heading>
-                                <div class="col-sm-12 col-md-12">
+                                <div class="col-sm-11 col-md-11">
                                     <button ng-click="toggleLayer(mapLayer.name)" class="btn btn-primary">
                                          {{mapLayer.label}}
                                     </button>
+                                    <button ng-click="editMode('tableLink')" class="btn btn-large btn-primary">Table</button>
+                                    <button ng-click="editMode('infobox')" class="btn btn-large btn-primary">Info Box</button>
+                                    <button ng-click="editMode('htmlmixed')" class="btn btn-large btn-primary">&nbsp HTML &nbsp</button>
+                                    <button ng-click="editMode('css')" class="btn btn-large btn-primary">&nbsp&nbsp CSS &nbsp&nbsp </button>
+                                    <button ng-click="editMode('sql')" class="btn btn-primary">&nbsp&nbsp SQL &nbsp&nbsp</button>
                                 </div>
-
-                                <div class="col-sm-12 col-md-12">
-                                    <button ng-click="editMode('css')" class="btn btn-primary">CSS</button>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <button ng-click="editMode('sql')" class="btn btn-primary">SQL</button>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <div class="leaflet-draw leaflet-control">
-                                        <div class="leaflet-draw-section">
-                                            <div class="leaflet-draw-toolbar leaflet-bar leaflet-draw-toolbar-top"><a
-                                                    class="leaflet-draw-draw-polyline" href="javascript:void(0)"
-                                                    title="Draw a polyline"></a><a class="leaflet-draw-draw-polygon"
-                                                                                   href="javascript:void(0)"
-                                                                                   title="Draw a polygon"></a><a
-                                                    class="leaflet-draw-draw-rectangle" href="javascript:void(0)"
-                                                    title="Draw a rectangle"></a><a class="leaflet-draw-draw-circle"
-                                                                                    href="javascript:void(0)"
-                                                                                    title="Draw a circle"></a><a
-                                                    class="leaflet-draw-draw-marker" href="javascript:void(0)"
-                                                    title="Draw a marker"></a></div>
-                                            <ul class="leaflet-draw-actions" style="top: 103px; display: none;">
-                                                <li class=""><a class="" href="javascript:void(0)"
-                                                                title="Cancel drawing">Cancel</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="leaflet-draw-section">
-                                            <div class="leaflet-draw-toolbar leaflet-bar"><a
-                                                    class="leaflet-draw-edit-edit" href="javascript:void(0)"
-                                                    title="Edit layers."></a><a class="leaflet-draw-edit-remove"
-                                                                                href="javascript:void(0)"
-                                                                                title="Delete layers."></a></div>
-                                            <ul class="leaflet-draw-actions"></ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--<div class="col-sm-1 col-md-1">-->
+                                    <!--<div class="leaflet-draw leaflet-control">-->
+                                        <!--<div class="leaflet-draw-section">-->
+                                            <!--<div class="leaflet-draw-toolbar leaflet-bar leaflet-draw-toolbar-top"><a-->
+                                                    <!--class="leaflet-draw-draw-polyline" href="javascript:void(0)"-->
+                                                    <!--title="Draw a polyline"></a><a class="leaflet-draw-draw-polygon"-->
+                                                                                   <!--href="javascript:void(0)"-->
+                                                                                   <!--title="Draw a polygon"></a><a-->
+                                                    <!--class="leaflet-draw-draw-rectangle" href="javascript:void(0)"-->
+                                                    <!--title="Draw a rectangle"></a><a class="leaflet-draw-draw-circle"-->
+                                                                                    <!--href="javascript:void(0)"-->
+                                                                                    <!--title="Draw a circle"></a><a-->
+                                                    <!--class="leaflet-draw-draw-marker" href="javascript:void(0)"-->
+                                                    <!--title="Draw a marker"></a></div>-->
+                                            <!--<ul class="leaflet-draw-actions" style="top: 103px; display: none;">-->
+                                                <!--<li class=""><a class="" href="javascript:void(0)"-->
+                                                                <!--title="Cancel drawing">Cancel</a></li>-->
+                                            <!--</ul>-->
+                                        <!--</div>-->
+                                        <!--<div class="leaflet-draw-section">-->
+                                            <!--<div class="leaflet-draw-toolbar leaflet-bar"><a-->
+                                                    <!--class="leaflet-draw-edit-edit" href="javascript:void(0)"-->
+                                                    <!--title="Edit layers."></a><a class="leaflet-draw-edit-remove"-->
+                                                                                <!--href="javascript:void(0)"-->
+                                                                                <!--title="Delete layers."></a></div>-->
+                                            <!--<ul class="leaflet-draw-actions"></ul>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </accordion-group>
                         </accordion>
                     </accordion-group>
+                    <div class="col-sm-12 col-md-12">
+                        <button ng-click="editMode('save')" class="btn btn-large btn-primary">Save This Session</button>
+                    </div>
+                </accordion>
+                    </accordion-group>
                 </accordion>
 
-            </div>
+             </div>
 
 
         </div>

@@ -7,7 +7,9 @@ body {
     position: relative;
     opacity: 0.0;
 }
-
+ul{
+    list-style-type: none;
+}
 
 /* Bootstrap overrides */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -76,4 +78,77 @@ a {
 .leaflet-control-layers.leaflet-control {
     display: none;
 }
+.leaflet-control-loading {
+    background: url(images/spinner.gif);
+}
 
+.btn-droppable { width: 180px; height: 40px; padding-left: 4px; }
+.btn-draggable { width: 160px; }
+
+.ngHeaderActionButton {
+    position: absolute;
+    right: 20px;
+    top: 8px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    z-index: 1;
+    background-color: #9fbbb4;
+    cursor: pointer;
+}
+.ngCellHeaderActionButton {
+    position: absolute;
+    right: 2px;
+    top: 8px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    z-index: 1;
+    background-color: #9fbbb4;
+    cursor: pointer;
+}
+.ngColActionMenu {
+    right: 2px;
+    padding: 5px;
+    top: 25px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #bdd0cb;
+    position: absolute;
+    border: 2px solid #d4d4d4;
+    z-index: 99999;
+}
+.ngColListActionCheckbox {
+    position: relative;
+    right: 3px;
+    top: 4px;
+}
+.ngColActionList {
+    list-style-type: none;
+    margin-top: 2px;
+    margin-left: 8px;
+
+}
+.ngColActionListItem {
+    white-space: nowrap;
+}
+.ngActionMenuText {
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+.ngHeaderContainer{
+    overflow: visible;
+
+}
+.actionMenuShow{
+    display: block;
+}
+.actionMenuHide{
+    display: none !important;
+}

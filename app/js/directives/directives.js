@@ -120,47 +120,128 @@ angular.module('mapApp.directives', []).
         }
     ])
     // example of a directive to call a bootstrap.js function
-.directive('customPopover', function () {
-    return {
-        restrict: 'A',
-        template: '<span>{{label}}</span>',
-        link: function (scope, el, attrs) {
-            scope.label = attrs.popoverLabel;
+    .directive('customPopover', function () {
+        return {
+            restrict: 'A',
+            template: '<span>{{label}}</span>',
+            link: function (scope, el, attrs) {
+                scope.label = attrs.popoverLabel;
 
-            $(el).popover({
-                trigger: 'click',
-                html: true,
-                content: attrs.popoverHtml,
-                placement: attrs.popoverPlacement
-            });
-        }
-    };
-})
+                $(el).popover({
+                    trigger: 'click',
+                    html: true,
+                    content: attrs.popoverHtml,
+                    placement: attrs.popoverPlacement
+                });
+            }
+        };
+    })
     .directive("flyovereditor", function () {
         return {
             restrict: 'EA',
             compile: function (element, attrs) {
-                var stringMode = "'"+  attrs.mode + "'";
+                var stringMode = "'" + attrs.mode + "'";
+                var invalid = "'invalid" + "'";
+                var codeMirrorTemplate =
+                    '<h1> Editor Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    ' <textarea ui-codemirror="editorOptions' + attrs.mode + '" ng-model="code' + attrs.mode + '"></textarea>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var addLayerTemplate =
+                    '<h1>Add Layer Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var uploadLayerTemplate =
+                    '<h1>Upload Layer Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var createLayerTemplate =
+                    '<h1>Create Layer Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var createInfoTemplate =
+                    '<h1>InfoBox Layer Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    ' <div class="row-fluid">' +
+                        '<ul class="thumbnails">' +
+                            '<li class="span3" style="margin-left:10px;" ng-repeat="item in list1">' +
+                                '<div class="btn btn-droppable" data-drop="true" ng-model="list1" jqyoui-droppable="{index: {{$index}}}">' +
+                                    '<div class="btn btn-info btn-draggable" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert:' + invalid + ' }" ng-model="list1" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}">' +
+                                        '<tr> <td>{{item.title}}</td><td>&nbsp&nbsp&nbsp</td>' +
+                                        '<td><button ng-click="applyInfobox(item,$index)" class="btn btn-primary">{{item.show}}</button></td></tr>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</li>' +
+                        '</ul>' +
+                        '</br>' +
+                    '</div>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var tableTemplate =
+                    '<h1>Table Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                var saveTemplate =
+                    '<h1>Save Clicked!</h1>' +
+                    '<p>' +
+                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+
+                switch (attrs.mode) {
+                    case 'sql':
+                    case 'css':
+                    case 'htmlmixed':
+                        template = codeMirrorTemplate;
+                        break;
+                    case 'add':
+                        template = addLayerTemplate;
+                        break;
+                    case 'upload':
+                        template = uploadLayerTemplate;
+                        break;
+                    case 'create':
+                        template = createLayerTemplate;
+                        break;
+                    case 'infobox':
+                        template = createInfoTemplate;
+                        break;
+                    case 'tableLink':
+                        template = tableTemplate;
+                        break;
+                    case 'save':
+                        template = saveTemplate;
+                        break;
+                }
 
                 $('<div>')
-                    .attr( 'class', attrs.mode )
-                    .html(
-                        '<h1> Editor Clicked!</h1>' +
-                        '<p>' +
-                        '   Click the button again to make this go away or click the "Dismiss" button below.' +
-                        '</p>' +
-                           ' <textarea ui-codemirror="editorOptions'+attrs.mode+'" ng-model="code'+attrs.mode+'"></textarea>' +
-                        '<button class="btn btn-info js-jumbo '+attrs.mode+'">Dismiss</button>'+
-                        '<button ng-click="applySnippit('+stringMode+')" class="btn btn-primary '+attrs.mode+'">Apply</button>'
-                )
+                    .attr('class', attrs.mode)
+                    .html(template)
                     .addClass('jumbotron flyover flyover-centered')
-                    .appendTo( $('.content') );
+                    .appendTo($('.content'));
 
 
-                $('.js-jumbo.'+attrs.mode).click(function() {
-                    $('.'+attrs.mode).toggleClass('in');
+                $('.js-jumbo.' + attrs.mode).click(function () {
+                    $('.' + attrs.mode).toggleClass('in');
                 });
-
 
 
             }
