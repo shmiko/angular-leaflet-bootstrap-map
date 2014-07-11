@@ -21,7 +21,6 @@ angular.module('mapApp', [
     'ui.codemirror',
     'leaflet-directive',
     'angularFileUpload',
-    'ngDragDrop',
     'ngGrid'
 
 ]).
@@ -30,6 +29,10 @@ angular.module('mapApp', [
             $routeProvider.when('/map', {
                 templateUrl: 'partials/maps/map.html',
                 controller: 'MapsController'
+            });
+            $routeProvider.when('/table/:table', {
+                templateUrl: 'partials/tables/table.html',
+                controller: 'TablesController'
             });
             $routeProvider.when('/table', {
                 templateUrl: 'partials/tables/table.html',

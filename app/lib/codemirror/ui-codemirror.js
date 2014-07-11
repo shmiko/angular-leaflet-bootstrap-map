@@ -11,39 +11,33 @@ angular.module('ui.codemirror', [])
       restrict: 'EA',
       require: '?ngModel',
       priority: 1,
-      compile: function compile(tElement) {
+      compile: function compile() {
 
         // Require CodeMirror
         if (angular.isUndefined(window.CodeMirror)) {
           throw new Error('ui-codemirror need CodeMirror to work... (o rly?)');
         }
 
-        // Create a codemirror instance with
-        // - the function that will to place the editor into the document.
-        // - the initial content of the editor.
-        //   see http://codemirror.net/doc/manual.html#api_constructor
-        var value = tElement.text();
-        var codeMirror = new window.CodeMirror(function (cm_el) {
+        return function postLink(scope, iElement, iAttrs, ngModel) {
 
-          angular.forEach(tElement.prop('attributes'), function (a) {
-            if (a.name === 'ui-codemirror') {
-              cm_el.setAttribute('ui-codemirror-opts', a.textContent);
-            } else {
-              cm_el.setAttribute(a.name, a.textContent);
-            }
-          });
 
-          // FIX replaceWith throw not parent Error !
-          if (tElement.parent().length <= 0) {
-            tElement.wrap('<div>');
+          var options, opts, codeMirror, value;
+
+          value = iElement.text();
+
+          if (iElement[0].tagName === 'TEXTAREA') {
+            // Might bug but still ...
+            codeMirror = window.CodeMirror.fromTextArea(iElement[0], {
+              value: value
+            });
+          } else {
+            iElement.html('');
+            codeMirror = new window.CodeMirror(function(cm_el) {
+              iElement.append(cm_el);
+            }, {
+              value: value
+            });
           }
-
-          tElement.replaceWith(cm_el);
-        }, {value: value});
-
-        return  function postLink(scope, iElement, iAttrs, ngModel) {
-
-          var options, opts;
 
           options = uiCodemirrorConfig.codemirror || {};
           opts = angular.extend({}, options, scope.$eval(iAttrs.uiCodemirror), scope.$eval(iAttrs.uiCodemirrorOpts));
@@ -58,7 +52,7 @@ angular.module('ui.codemirror', [])
 
           updateOptions(opts);
 
-          if (angular.isDefined(scope.$eval(iAttrs.uiCodemirror))) {
+          if (iAttrs.uiCodemirror) {
             scope.$watch(iAttrs.uiCodemirror, updateOptions, true);
           }
 
@@ -69,8 +63,7 @@ angular.module('ui.codemirror', [])
             ngModel.$formatters.push(function (value) {
               if (angular.isUndefined(value) || value === null) {
                 return '';
-              }
-              else if (angular.isObject(value) || angular.isArray(value)) {
+              } else if (angular.isObject(value) || angular.isArray(value)) {
                 throw new Error('ui-codemirror cannot use an object or an array as a model');
               }
               return value;
@@ -105,7 +98,7 @@ angular.module('ui.codemirror', [])
             scope.$watch(iAttrs.uiRefresh, function (newVal, oldVal) {
               // Skip the initial watch firing
               if (newVal !== oldVal) {
-                  codeMirror.refresh();
+                codeMirror.refresh();
               }
             });
           }
@@ -113,7 +106,7 @@ angular.module('ui.codemirror', [])
 
           // Allow access to the CodeMirror instance through a broadcasted event
           // eg: $broadcast('CodeMirror', function(cm){...});
-          scope.$on('CodeMirror', function(event, callback){
+          scope.$on('CodeMirror', function(event, callback) {
             if (angular.isFunction(callback)) {
               callback(codeMirror);
             } else {
@@ -126,6 +119,7 @@ angular.module('ui.codemirror', [])
           if (angular.isFunction(opts.onLoad)) {
             opts.onLoad(codeMirror);
           }
+
         };
       }
     };

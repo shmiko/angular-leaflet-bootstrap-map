@@ -80,6 +80,7 @@ angular.module('mapApp.mapsController', [])
                     hillshade: {
                         name: 'Hillshade Europa',
                             type: 'wms',
+                            table: 'hillshade',
                             url: 'http://129.206.228.72/cached/hillshade',
                             visible: true,
                             layerOptions: {
@@ -93,6 +94,7 @@ angular.module('mapApp.mapsController', [])
                     fire: {
                         name: 'OpenFireMap',
                             type: 'xyz',
+                        table: 'fire',
                             url: 'http://openfiremap.org/hytiles/{z}/{x}/{y}.png',
                             layerOptions: {
                             attribution: '&copy; <a href="http://www.openfiremap.org">OpenFireMap</a> contributors - &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -101,11 +103,13 @@ angular.module('mapApp.mapsController', [])
                     },
                     cars: {
                         name: 'Cars',
+                        table: 'cars',
                             type: 'group',
                         visible: true
                     },
                     bikes: {
                         name: 'Bicycles',
+                        table: 'bikes',
                             type: 'group',
                             visible: false
                     }
@@ -167,6 +171,7 @@ angular.module('mapApp.mapsController', [])
                 console.log(key + ': ' + value);
                 var mapLayer = {};
                 mapLayer.name = key;
+                mapLayer.table = value.table;
                 mapLayer.title = value.name;
                 mapLayer.content = value.type;
                 mapLayer.visible = value.visible;
@@ -178,6 +183,38 @@ angular.module('mapApp.mapsController', [])
                 $scope.mapLayers.push(mapLayer)
 
             });
+
+            $scope.layerUp = function(index, event) {
+                // stop accordion behavior
+                event.preventDefault();
+                event.stopPropagation();
+                if (index <= 0 || index >= $scope.mapLayers.length)
+                    return;
+                var temp = $scope.mapLayers[index];
+                $scope.mapLayers[index] = $scope.mapLayers[index - 1];
+                $scope.mapLayers[index - 1] = temp;
+            };
+
+            $scope.layerDown = function(index, event) {
+                // stop accordion behavior
+                event.preventDefault();
+                event.stopPropagation();
+                if (index < 0 || index >= ($scope.mapLayers.length - 1))
+                    return;
+                var temp = $scope.mapLayers[index];
+                $scope.mapLayers[index] = $scope.mapLayers[index + 1];
+                $scope.mapLayers[index + 1] = temp;
+            };
+
+            $scope.layerRemove = function(index, event) {
+                // stop accordion behavior
+                event.preventDefault();
+                event.stopPropagation();
+                $scope.mapLayers.splice(index, 1);
+            };
+
+
+
             $scope.$on('leafletDirectiveMap.click', function(event, args){
                 var latlng = args.leafletEvent.latlng;
                 toastr.info('Lat: ' + latlng.lat + '<br>Lng: ' + latlng.lng);
@@ -276,20 +313,68 @@ angular.module('mapApp.mapsController', [])
                 return inner;
             };
 
+            //get code
             $scope.applySnippit = function(mode) {
                 var editor = "editorOptions" + mode;
                 var look = $scope['code'+mode];
-            };
-
-            $scope.editMode = function(mode) {
-                // first get company that opportunity is to be created for
                 $timeout(function() {
                     angular.element('.'+mode).triggerHandler('click');
                 }, 0);
             };
 
+            $scope.editMode = function(mode, layerName) {
+                // first get company that opportunity is to be created for
+                $scope.layerName = layerName;
+                $timeout(function() {
+                    angular.element('.'+mode).triggerHandler('click');
+                }, 0);
+            };
 
-            $scope.list1 = [
+            $scope.viewTable = function(table) {
+                $location.path('/table/'+table);
+            };
+
+            $scope.addNewLayer = function(layer,mode) {
+
+                $timeout(function() {
+                    angular.element('.'+mode).triggerHandler('click');
+                }, 0);
+                alert('add new layer '+layer.name);
+            };
+            $scope.saveSession = function(mode) {
+                $timeout(function() {
+                    angular.element('.'+mode).triggerHandler('click');
+                }, 0);
+
+                alert('save map layers ');
+            };
+            $scope.refreshLayer = function(layer, mode) {
+                $timeout(function() {
+                    angular.element('.'+mode).triggerHandler('click');
+                }, 0);
+
+                alert('refresh map layer '+ layer);
+            };
+            $scope.refreshMap = function(mode) {
+                $timeout(function() {
+                    angular.element('.'+mode).triggerHandler('click');
+                }, 0);
+
+                alert('refresh map layers ');
+            };
+
+            $scope.uploadLayer = function() {
+
+                $location.path('/uploader');
+            };
+
+            $scope.createNewTable = function() {
+                // call service to return unique table name
+                var table = ApplicationService.newTableName();
+                $location.path('/table/'+table);
+            };
+
+            $scope.infoBoxAttributes = [
                 { 'title': 'Item 3', 'show': "off",'drag': true },
                 { 'title': 'Item 2', 'show': "off",'drag': true },
                 { 'title': 'Item 1', 'show': "off",'drag': true },
@@ -298,14 +383,40 @@ angular.module('mapApp.mapsController', [])
 
             $scope.applyInfobox = function(item,index){
                 if(item.show == 'off'){
-                    $scope.list1[index].show = 'on';
+                    $scope.infoBoxAttributes[index].show = 'on';
                 }else{
-                    $scope.list1[index].show = 'off';
+                    $scope.infoBoxAttributes[index].show = 'off';
 
                 }
+                $scope.applyInfoBoxSettings = function(layer,mode) {
+
+                    $timeout(function() {
+                        angular.element('.'+mode).triggerHandler('click');
+                    }, 0);
+                    alert('add infobox for layer '+layer);
+                };
 
             };
 
+            $scope.iAttributeUp = function(index) {
+                if (index <= 0 || index >= $scope.infoBoxAttributes.length)
+                    return;
+                var temp = $scope.infoBoxAttributes[index];
+                $scope.infoBoxAttributes[index] = $scope.infoBoxAttributes[index - 1];
+                $scope.infoBoxAttributes[index - 1] = temp;
+            };
+
+            $scope.iAttributeDown = function(index) {
+                if (index < 0 || index >= ($scope.infoBoxAttributes.length - 1))
+                    return;
+                var temp = $scope.infoBoxAttributes[index];
+                $scope.infoBoxAttributes[index] = $scope.infoBoxAttributes[index + 1];
+                $scope.infoBoxAttributes[index + 1] = temp;
+            };
+
+            $scope.iAttributeRemove = function(index) {
+                $scope.infoBoxAttributes.splice(index, 1);
+            };
 
 
 

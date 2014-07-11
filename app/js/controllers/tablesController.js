@@ -14,6 +14,16 @@ angular.module('mapApp.tablesController', [])
         function ($scope, $routeParams, $location, ModalService) {
 
             $scope.showActionMenu = false;
+            //Grab ID off of the route
+            $scope.tableName = $routeParams.table;
+            if(!$scope.tableName){
+                /*
+                * get the combined table for the currently displayed map
+                * if no current table, display a modal with table choices,
+                * if no table choices, then show an empty table for the user to create
+                * */
+                $scope.tableName = 'table_1';
+            }
             $scope.showColumnActionMenu = false;
             $scope.filterOptions = {
                 filterText: ''
@@ -54,7 +64,16 @@ angular.module('mapApp.tablesController', [])
                             enableCellEdit: false,
                             visible: false,
                             lat: false,
-                            lon: false
+                            lon: false,
+                            addressGEO: false,
+                            address:{
+                                streetPre: false,
+                                street: false,
+                                streetPost: false,
+                                city: false,
+                                state: false,
+                                zip: false
+                            }
                         });
 
                     }else if (col == 'geoRef'){
@@ -64,7 +83,16 @@ angular.module('mapApp.tablesController', [])
                             headerCellTemplate: 'partials/util/filterHeaderTemplate.html',
                             cellTemplate: '<a ng-click="popup(col,COL_FIELD )">{{COL_FIELD.lat}}, {{COL_FIELD.lon}}</a>' ,
                             lat: true,
-                            lon: true
+                            lon: true,
+                            addressGEO: false,
+                            address:{
+                                streetPre: false,
+                                street: false,
+                                streetPost: false,
+                                city: false,
+                                state: false,
+                                zip: false
+                            }
                         });
 
                     }
@@ -73,7 +101,16 @@ angular.module('mapApp.tablesController', [])
                             field: col,
                             headerCellTemplate: 'partials/util/filterHeaderTemplate.html',
                             lat: false,
-                            lon: false
+                            lon: false,
+                            addressGEO: false,
+                            address:{
+                                streetPre: false,
+                                street: false,
+                                streetPost: false,
+                                city: false,
+                                state: false,
+                                zip: false
+                            }
                         });
                     }
                 });
@@ -96,6 +133,7 @@ angular.module('mapApp.tablesController', [])
                     if (result === 'ok') {
                         field.lat = modalOptions.record.lat;
                         field.lon = modalOptions.record.lon;
+                        field.addressGEO = modalOptions.record.addressGEO;
                     }
                 });
             };
@@ -209,8 +247,10 @@ angular.module('mapApp.tablesController', [])
                     name:col.colDef.field,
                     lat: col.colDef.lat,
                     lon: col.colDef.lon,
+                    addressGEO: col.colDef.addressGEO,
                     latSetting: angular.copy(col.colDef.lat),
-                    lonSetting: angular.copy(col.colDef.lon)
+                    lonSetting: angular.copy(col.colDef.lon),
+                    address: angular.copy(col.colDef.address)
                 };
 
                 var modalDefaults = {
@@ -229,6 +269,8 @@ angular.module('mapApp.tablesController', [])
 
                         col.colDef.lon = angular.copy(modalOptions.record.lon);
                         col.colDef.lat = angular.copy(modalOptions.record.lat);
+                        col.colDef.addressGEO = angular.copy(modalOptions.record.addressGEO);
+                        col.colDef.address = angular.copy(modalOptions.record.address);
 
                         // existence of the template means I have already processed this field
                         if(col.colDef.lon && col.colDef.lat && !col.colDef.cellTemplate){

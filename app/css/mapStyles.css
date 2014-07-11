@@ -152,3 +152,57 @@ a {
 .actionMenuHide{
     display: none !important;
 }
+.animate-move {
+    position: relative;
+    top: 26px;
+}
+
+.animate-move.animate-move-active {
+    transition: all 0.5s ease;
+    top: 0;
+    opacity: 1.0;
+}
+
+.animate-move + div {
+    /* cannot have transition on this element */
+    /*transition: all 1s ease;*/
+    position: relative;
+    top: -26px;
+}
+
+.animate-move.animate-move-active + div {
+    position: relative;
+    transition: all 0.5s ease;
+    top: 0;
+    opacity: 1.0;
+}
+
+.animate-enter {
+    position: relative;
+    opacity: 0.0;
+    height: 0;
+    left: 100px;
+}
+
+.animate-enter.animate-enter-active {
+    transition: all 0.5s ease;
+    opacity: 1.0;
+    left: 0;
+    height: 26px;
+}
+
+
+.animate-leave {
+    position: relative;
+    opacity: 1.0;
+    left: 0;
+    height: 26px;
+}
+
+.animate-leave.animate-leave-active {
+    transition: all 0.5s ease;
+    opacity: 0.0;
+    left: 100px;
+    height: 0;
+    top: -13px;
+}

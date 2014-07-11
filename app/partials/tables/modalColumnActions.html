@@ -9,8 +9,16 @@
         <div class="form-group">
             <label>Geo-Reference This Column</label></br>
 
-            Lat: <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting" type="checkbox" ng-model="modalOptions.record.lat"> <br/>
-            Lon: <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting" type="checkbox" ng-model="modalOptions.record.lon"> <br/>
+            <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting || modalOptions.record.addressGEO" type="checkbox" ng-model="modalOptions.record.lat"> Lat <br/>
+            <input ng-disabled="modalOptions.record.latSetting || modalOptions.record.lonSetting || modalOptions.record.addressGEO" type="checkbox" ng-model="modalOptions.record.lon"> Lon  <br/>
+            <input ng-disabled="modalOptions.record.lat || modalOptions.record.lon" type="checkbox" ng-model="modalOptions.record.addressGEO" data-ng-click="modalOptions.record.address = {}"> Address <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="streetPre">  Street - Prefix <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="street"> Street <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="streetPost">  Street - Post <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="city"> City <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="state"> State <br/>
+            <input ng-disabled="!modalOptions.record.addressGEO" type="radio" ng-model="modalOptions.record.address" value="zip"> Zip <br/>
+
         </div>
 
 

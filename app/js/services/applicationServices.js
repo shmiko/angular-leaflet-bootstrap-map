@@ -11,92 +11,20 @@ angular.module('mapApp.applicationServices', []).
 //each doing the same thing just structuring the functions/data differently.
     .service('ApplicationService', function () {
 
-
-        this.storeCustomer = function (customerObj) {
-            customerObject = customerObj;
-        };
-
-        this.getStoredCustomer = function () {
-            if (customerObject) {
-                return customerObject;
-            } else {
-                return null;
-            }
-        };
-        this.storeOpportunity = function (opportunityObj) {
-            opportunityObject = opportunityObj;
-        };
-
-        this.getStoredOpportunity = function () {
-            if (opportunityObject) {
-                return opportunityObject;
-            } else {
-                return null;
-            }
-        };
-        this.storeOpportunityData = function (opportunityDataObj) {
-            opportunityDataObject = opportunityDataObj;
-        };
-
-        this.getStoredOpportunityData = function () {
-            if (opportunityDataObject) {
-                return opportunityDataObject;
-            } else {
-                return null;
-            }
-        };
-        this.storeOpportunityDataByCompany = function (opportunityDataCompanyObj) {
-            opportunityDataCompanyObject = opportunityDataCompanyObj;
-        };
-
-        this.getStoredOpportunityDataByCompany = function () {
-            if (opportunityDataCompanyObject) {
-                return opportunityDataCompanyObject;
-            } else {
-                return {};
-            }
-        };
-        this.storeOpportunityDataBySalesPerson = function (opportunityDataSalesPersonObj) {
-            opportunityDataSalesPersonObject = opportunityDataSalesPersonObj;
-        };
-
-        this.getStoredOpportunityDataBySalesPerson = function () {
-            if (opportunityDataSalesPersonObject) {
-                return opportunityDataSalesPersonObject;
-            } else {
-                return {};
-            }
-        };
-        this.storeOpportunityDataByCompanyDate = function (opportunityDataCompanyDateObj) {
-            opportunityDataCompanyDateObject = opportunityDataCompanyDateObj;
-        };
-
-        this.getStoredOpportunityDataByCompanyDate = function () {
-            if (opportunityDataCompanyDateObject) {
-                return opportunityDataCompanyDateObject;
-            } else {
-                return {};
-            }
-        };
-        this.storeOpportunityDataBySalesPersonDate = function (opportunityDataSalesPersonDateObj) {
-            opportunityDataSalesPersonDateObject = opportunityDataSalesPersonDateObj;
-        };
-
-        this.getStoredOpportunityDataBySalesPersonDate = function () {
-            if (opportunityDataSalesPersonDateObject) {
-                return opportunityDataSalesPersonDateObject;
-            } else {
-                return {};
+        this.newTableName = function () {
+            // need to create logic to analyze existing table names and return a unique value
+            var x = 1;
+            while (x < 100) {
+                if(tableNames.indexOf('table_'+x)==-1) {
+                    return 'table_' + x;
+                }
+                x++
             }
         };
 
-        var customerObject;
-        var opportunityObject;
-        var opportunityDataObject;
-        var opportunityDataCompanyObject;
-        var opportunityDataSalesPersonObject;
-        var opportunityDataCompanyDateObject;
-        var opportunityDataSalesPersonDateObject;
+
+
+        var tableNames = ["table_1","table_2","table_3" ];
 
 
     })

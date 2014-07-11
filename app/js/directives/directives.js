@@ -1,5 +1,6 @@
 /* Directives */
 
+https://github.com/angular/angular.js/wiki/Understanding-Directives
 
 angular.module('mapApp.directives', []).
 //This directive adds custom animations to views as they enter or leave a screen
@@ -142,69 +143,86 @@ angular.module('mapApp.directives', []).
             compile: function (element, attrs) {
                 var stringMode = "'" + attrs.mode + "'";
                 var invalid = "'invalid" + "'";
+                var iAttributeStr = "'animate" + "'";
                 var codeMirrorTemplate =
-                    '<h1> Editor Clicked!</h1>' +
+                    '<h1> Editor</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                        '   After editing, click Apply' +
                     '</p>' +
                     ' <textarea ui-codemirror="editorOptions' + attrs.mode + '" ng-model="code' + attrs.mode + '"></textarea>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
                     '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
                 var addLayerTemplate =
-                    '<h1>Add Layer Clicked!</h1>' +
+                    '<h1>Add Layer</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '  Select a layer then Click to add this layer to the map.' +
                     '</p>' +
+                       ' <select ng-model="newLayer" ng-options="mapLayer.name for mapLayer in mapLayers">'+
+                        '<option value="">-- choose layer --</option>'+
+                        '</select><br><br>'+
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="addNewLayer(newLayer,' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
                 var uploadLayerTemplate =
-                    '<h1>Upload Layer Clicked!</h1>' +
+                    '<h1>Upload Layer</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '   Click Go to upload a new table' +
                     '</p>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="uploadLayer()" class="btn btn-primary ' + attrs.mode + '">Go</button>';
                 var createLayerTemplate =
-                    '<h1>Create Layer Clicked!</h1>' +
+                    '<h1>Create Layer</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '   Click to create a table and add data for this new layer.' +
                     '</p>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="createNewTable()" class="btn btn-primary ' + attrs.mode + '">Create Table</button>';
                 var createInfoTemplate =
-                    '<h1>InfoBox Layer Clicked!</h1>' +
+                    '<h1>InfoBox</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '   After editing, click Apply' +
                     '</p>' +
                     ' <div class="row-fluid">' +
-                        '<ul class="thumbnails">' +
-                            '<li class="span3" style="margin-left:10px;" ng-repeat="item in list1">' +
-                                '<div class="btn btn-droppable" data-drop="true" ng-model="list1" jqyoui-droppable="{index: {{$index}}}">' +
-                                    '<div class="btn btn-info btn-draggable" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert:' + invalid + ' }" ng-model="list1" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}">' +
-                                        '<tr> <td>{{item.title}}</td><td>&nbsp&nbsp&nbsp</td>' +
-                                        '<td><button ng-click="applyInfobox(item,$index)" class="btn btn-primary">{{item.show}}</button></td></tr>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</li>' +
-                        '</ul>' +
-                        '</br>' +
+
+
+                   ' <div ng-repeat="iAttribute in infoBoxAttributes" ng-animate="'+iAttributeStr+'">' +
+                    '  {{iAttribute.title}} &nbsp;'+
+                      '  <button ng-click="iAttributeUp($index)">up</button>'+
+                       ' <button ng-click="iAttributeDown($index)">down</button>' +
+                       ' <button ng-click="iAttributeRemove($index)">remove</button>' +
+                   ' </div>' +
+
+                '</br>' +
                     '</div>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="applyInfoBoxSettings(layerName,' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
                 var tableTemplate =
-                    '<h1>Table Clicked!</h1>' +
+                    '<h1>Table View</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '   Click to view the layer data as a table.' +
                     '</p>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="viewTable(layerName)" class="btn btn-primary ' + attrs.mode + '">Go</button>';
                 var saveTemplate =
-                    '<h1>Save Clicked!</h1>' +
+                    '<h1>Save Session</h1>' +
                     '<p>' +
-                    '   Click the button again to make this go away or click the "Dismiss" button below.' +
+                    '   Click the button to save this session.' +
                     '</p>' +
                     '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
-                    '<button ng-click="applySnippit(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Apply</button>';
+                    '<button ng-click="saveSession(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Save</button>';
+                var refreshLayerTemplate =
+                    '<h1>Layer Refresh</h1>' +
+                    '<p>' +
+                    '   Click the button to refresh this layer' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="refreshLayer(layerName, ' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Refresh</button>';
+                var refreshMapTemplate =
+                    '<h1>Map Refresh</h1>' +
+                    '<p>' +
+                    '   Click the button to refresh the map' +
+                    '</p>' +
+                    '<button class="btn btn-info js-jumbo ' + attrs.mode + '">Dismiss</button>' +
+                    '<button ng-click="refreshMap(' + stringMode + ')" class="btn btn-primary ' + attrs.mode + '">Refresh</button>';
 
                 switch (attrs.mode) {
                     case 'sql':
@@ -229,6 +247,12 @@ angular.module('mapApp.directives', []).
                         break;
                     case 'save':
                         template = saveTemplate;
+                        break;
+                    case 'refreshLayer':
+                        template = refreshLayerTemplate;
+                        break;
+                    case 'refreshMap':
+                        template = refreshMapTemplate;
                         break;
                 }
 

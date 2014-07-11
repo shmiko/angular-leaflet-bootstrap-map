@@ -38,6 +38,12 @@
             <div class="col-sm-2 col-md-2">
                 <button flyovereditor mode='save' style="display:none" class="btn btn-primary js-jumbo save">Save</button>
             </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='refreshMap' style="display:none" class="btn btn-primary js-jumbo refreshMap">Refresh</button>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <button flyovereditor mode='refreshLayer' style="display:none" class="btn btn-primary js-jumbo refreshLayer">Refresh</button>
+            </div>
             <div class="col-sm-12 col-md-12">
                 <accordion>
                     <accordion-group heading="Map Controls">
@@ -70,19 +76,25 @@
                                     <button ng-click="editMode('create')" class="btn btn-primary">Create </button>
                                 </div>
                             </accordion-group>
-                            <accordion-group ng-repeat="mapLayer in mapLayers">
-                                <accordion-heading>
+                            <accordion-group ng-repeat="mapLayer in mapLayers" ng-animate="'animate'">
+                                <accordion-heading is-open="open">
                                     {{mapLayer.title}}
+                                    <span class="pull-right">
+                                        <button  ng-click="layerUp($index,$event)">up</button>
+                                        <button  ng-click="layerDown($index,$event)">down</button>
+                                        <button  ng-click="layerRemove($index,$event)">remove</button>
+                                    </span>
                                 </accordion-heading>
                                 <div class="col-sm-11 col-md-11">
                                     <button ng-click="toggleLayer(mapLayer.name)" class="btn btn-primary">
                                          {{mapLayer.label}}
                                     </button>
-                                    <button ng-click="editMode('tableLink')" class="btn btn-large btn-primary">Table</button>
-                                    <button ng-click="editMode('infobox')" class="btn btn-large btn-primary">Info Box</button>
-                                    <button ng-click="editMode('htmlmixed')" class="btn btn-large btn-primary">&nbsp HTML &nbsp</button>
-                                    <button ng-click="editMode('css')" class="btn btn-large btn-primary">&nbsp&nbsp CSS &nbsp&nbsp </button>
-                                    <button ng-click="editMode('sql')" class="btn btn-primary">&nbsp&nbsp SQL &nbsp&nbsp</button>
+                                    <button ng-click="editMode('tableLink',mapLayer.table)" class="btn btn-large btn-primary">Table</button>
+                                    <button ng-click="editMode('infobox',mapLayer.name)" class="btn btn-large btn-primary">Info Box</button>
+                                    <button ng-click="editMode('htmlmixed',mapLayer.name)" class="btn btn-large btn-primary">&nbsp HTML &nbsp</button>
+                                    <button ng-click="editMode('css',mapLayer.name)" class="btn btn-large btn-primary">&nbsp&nbsp CSS &nbsp&nbsp </button>
+                                    <button ng-click="editMode('sql',mapLayer.name)" class="btn btn-primary">&nbsp&nbsp SQL &nbsp&nbsp</button>
+                                    <button ng-click="editMode('refreshLayer',mapLayer.name)" class="btn btn-primary">&nbsp&nbsp Refresh &nbsp&nbsp</button>
                                 </div>
                                 <!--<div class="col-sm-1 col-md-1">-->
                                     <!--<div class="leaflet-draw leaflet-control">-->
@@ -118,6 +130,7 @@
                     </accordion-group>
                     <div class="col-sm-12 col-md-12">
                         <button ng-click="editMode('save')" class="btn btn-large btn-primary">Save This Session</button>
+                        <button ng-click="editMode('refreshMap')" class="btn btn-large btn-primary">Refresh</button>
                     </div>
                 </accordion>
                     </accordion-group>

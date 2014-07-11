@@ -1,6 +1,7 @@
-<div class="tables view">
+<div class="tables view" xmlns="http://www.w3.org/1999/html">
     <header>
-        <h3>Table Stuff</h3>
+        <h3>Table Stuff
+        </h3>
     </header>
     <div>
 
@@ -24,6 +25,16 @@
 
 
         <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="input-group">
+                <input type="text"  data-ng-model="tableName" class="novalidate form-control"
+                       placeholder="Type Table Name" required="true" ng-readonly="readOnly" ng-init="readOnly = true">
+    <span class="input-group-btn">
+        <button class="btn btn-default" data-ng-click="readOnly=false" type="button">Rename</button>
+      </span>
+                </div><!-- /input-group -->
+                    </br>
+            </div>
 
             <div class="col-sm-12 col-md-12">
 
